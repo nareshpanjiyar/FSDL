@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en" class="overflow-x-hidden">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Naresh Kumar Panjiyar – Portfolio</title>
+
+    <!-- Tailwind & Lucide -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml;utf8,
+      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
+        <rect width='100' height='100' rx='20' fill='%2310b981'/>
+        <text x='50' y='65' font-size='60' text-anchor='middle' fill='white' font-family='Arial, sans-serif'>N</text>
+      </svg>"
+    />
+
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: #0a0a0a;
+        color: #e5e7eb;
+        font-family: "Inter", system-ui, sans-serif;
+      }
+      canvas#starfield {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -10;
+        background: #0a0a0a;
+      }
+      .glass {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        backdrop-filter: blur(8px);
+      }
+      .logo-icon {
+        width: 32px;
+        height: 32px;
+        object-fit: contain;
+      }
+      @keyframes float {
+        0% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-8px);
+        }
+        100% {
+          transform: translateY(0);
+        }
+      }
+      .animate-float {
+        animation: float 4s ease-in-out infinite;
+      }
+      @keyframes spin-slow {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .animate-spin-slow {
+        animation: spin-slow 10s linear infinite;
+      }
+    </style>
+  </head>
+
+  <body class="overflow-x-hidden">
+    <canvas id="starfield"></canvas>
+
+    <!-- NAVBAR -->
+    <nav class="sticky top-0 z-50 glass py-4">
+      <div class="max-w-6xl mx-auto px-6 flex justify-between items-center">
+        <h1 class="text-xl font-bold text-white">
+          Naresh Kumar Panjiyar<span class="text-emerald-400">.</span>
+        </h1>
+
+        <div class="hidden md:flex gap-6 text-sm text-gray-300">
+          <a href="#about" class="hover:text-emerald-400">About</a>
+          <a href="#skills" class="hover:text-emerald-400">Skills</a>
+          <a href="#projects" class="hover:text-emerald-400">Projects</a>
+          <a href="#experience" class="hover:text-emerald-400">Experience</a>
+          <a href="#education" class="hover:text-emerald-400">Education</a>
+          <a href="#achievements" class="hover:text-emerald-400"
+            >Achievements</a
+          >
+          <a href="#contact" class="hover:text-emerald-400">Contact</a>
+        </div>
+
+        <button
+          id="menu-btn"
+          class="md:hidden text-gray-300 hover:text-emerald-400 focus:outline-none"
+        >
+          <svg
+            id="menu-open"
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+          <svg
+            id="menu-close"
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 hidden"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <div
+      id="mobile-overlay"
+      class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm md:hidden z-40"
+    ></div>
+
+    <!-- MOBILE MENU -->
+    <div
+      id="mobile-menu"
+      class="fixed top-0 right-0 h-screen w-2/3 max-w-xs bg-black/90 backdrop-blur-lg text-gray-300 transform translate-x-full transition-transform duration-300 md:hidden z-50"
+    >
+      <div class="flex justify-end p-4">
+        <button
+          id="close-btn"
+          class="text-gray-300 hover:text-emerald-400 focus:outline-none"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <div class="flex flex-col gap-6 text-lg p-6">
+        <a href="#about" class="mobile-link hover:text-emerald-400">About</a>
+        <a href="#skills" class="mobile-link hover:text-emerald-400">Skills</a>
+        <a href="#projects" class="mobile-link hover:text-emerald-400"
+          >Projects</a
+        >
+        <a href="#experience" class="mobile-link hover:text-emerald-400"
+          >Experience</a
+        >
+        <a href="#education" class="mobile-link hover:text-emerald-400"
+          >Education</a
+        >
+        <a href="#achievements" class="mobile-link hover:text-emerald-400"
+          >Achievements</a
+        >
+        <a href="#contact" class="mobile-link hover:text-emerald-400"
+          >Contact</a
+        >
+      </div>
+    </div>
+
+    <!-- ABOUT -->
+    <section
+      id="about"
+      class="max-w-6xl mx-auto px-6 py-28 text-center"
+      data-aos="fade-up"
+    >
+      <div class="relative flex justify-center mb-6">
+        <div class="relative w-48 h-48">
+          <div
+            class="absolute inset-0 rounded-full border-4 border-transparent animate-spin-slow"
+            style="
+              background: conic-gradient(from 0deg, #10b981, #34d399, #059669);
+              -webkit-mask: linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+              -webkit-mask-composite: destination-out;
+              mask-composite: exclude;
+            "
+          ></div>
+          <img
+            src="nareshpanjiyar.jpeg"
+            alt="Naresh Kumar Panjiyar"
+            class="absolute inset-2 w-[calc(100%-16px)] h-[calc(100%-10px)] object-cover rounded-full shadow-lg animate-float hover:scale-105 hover:shadow-emerald-500/50 transition duration-500"
+          />
+        </div>
+      </div>
+
+      <h2 class="text-5xl font-extrabold mb-2 text-white">
+        Hi, I'm <span class="text-emerald-400">Naresh Kumar Panjiyar</span>
+      </h2>
+
+      <p class="text-lg text-gray-300 mb-6">
+        Computer Science and Engineering student • Embedded & Full-stack • IoT,
+        AI, Web
+      </p>
+
+      <p class="max-w-2xl mx-auto text-gray-300 mb-8">
+        B.Tech (CSE) at MIT World Peace University. Experienced in embedded
+        firmware, full-stack web apps, ML systems, and automation pipelines.
+      </p>
+
+      <div class="flex justify-center gap-4 flex-wrap">
+        <a
+          href="https://github.com/nareshpanjiyar"
+          target="_blank"
+          class="px-6 py-2 flex items-center gap-2 rounded-lg bg-emerald-500 text-white hover:bg-emerald-600 transition"
+        >
+          <i data-lucide="github" class="w-5 h-5"></i> GitHub
+        </a>
+        <a
+          href="https://www.linkedin.com/in/naresh-panjiyar/"
+          target="_blank"
+          class="px-6 py-2 flex items-center gap-2 rounded-lg bg-emerald-500 text-white hover:bg-emerald-600 transition"
+        >
+          <i data-lucide="linkedin" class="w-5 h-5"></i> LinkedIn
+        </a>
+        <a
+          href="mailto:nareshpanjiyar90@gmail.com"
+          target="_blank"
+          rel="noopener"
+          class="px-6 py-2 flex items-center gap-2 rounded-lg bg-emerald-500 text-white hover:bg-emerald-600 transition"
+        >
+          <i data-lucide="mail" class="w-5 h-5"></i> Say Hello
+        </a>
+        <a
+          href="https://drive.google.com/file/d/13gDHajqK6AtlaTnoIwQYcge2LnHz81EM/view?usp=sharing"
+          target="_blank"
+          rel="noopener"
+          class="px-6 py-2 flex items-center gap-2 rounded-lg bg-emerald-500 text-white hover:bg-emerald-600 transition"
+        >
+          <i data-lucide="download" class="w-5 h-5"></i> Download Resume
+        </a>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section
+      id="skills"
+      class="max-w-6xl mx-auto px-6 py-16"
+      data-aos="fade-right"
+    >
+      <h2 class="text-3xl font-bold text-center mb-10 text-white">Skills</h2>
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-6 text-sm">
+        <div
+          class="glass rounded-lg p-6 flex flex-col items-center hover:border-emerald-400 transition"
+        >
+          <img
+            src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg"
+            class="logo-icon mb-2"
+          />
+          C / C++
+        </div>
+        <div
+          class="glass rounded-lg p-6 flex flex-col items-center hover:border-emerald-400 transition"
+        >
+          <img
+            src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
+            class="logo-icon mb-2"
+          />
+          Python
+        </div>
+        <div
+          class="glass rounded-lg p-6 flex flex-col items-center hover:border-emerald-400 transition"
+        >
+          <img
+            src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg"
+            class="logo-icon mb-2"
+          />
+          MySQL
+        </div>
+        <div
+          class="glass rounded-lg p-6 flex flex-col items-center hover:border-emerald-400 transition"
+        >
+          <img
+            src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
+            class="logo-icon mb-2"
+          />
+          React
+        </div>
+        <div
+          class="glass rounded-lg p-6 flex flex-col items-center hover:border-emerald-400 transition"
+        >
+          <svg class="logo-icon mb-2" viewBox="0 0 32 32">
+            <path
+              d="M1 20c3.5-3 8.1-5 15-5s11.5 2 15 5c-1.8 1.7-6 4.3-15 4.3S2.8 21.7 1 20z"
+              fill="#FF9900"
+            ></path>
+            <path
+              d="M6 12c2-2 6-6 13-6s11 4 13 6c-2 1.8-6.4 5-13 5S8 13.8 6 12z"
+              fill="#232F3E"
+            ></path>
+          </svg>
+          AWS
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="py-16" data-aos="fade-up">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-3xl font-bold text-center mb-10 text-white">
+          Projects
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="glass rounded-lg p-6 hover:border-emerald-400 transition">
+            <h3 class="text-xl font-semibold text-white">
+              Hospital Management System
+            </h3>
+            <p class="mt-2 text-gray-400">
+              Developed a comprehensive Hospital Management System using PHP and
+              MySQL, featuring modules for patient and doctor management,
+              appointment scheduling, electronic medical records, billing,
+              discharge processing, and role-based access control for
+              administrators, doctors, and patients.
+            </p>
+            <a
+              href="https://github.com/nareshpanjiyar"
+              target="_blank"
+              rel="noopener"
+              class="inline-flex items-center gap-1 mt-3 text-emerald-400 underline"
+            >
+              View on GitHub <i data-lucide="external-link" class="w-4 h-4"></i>
+            </a>
+          </div>
+
+          <div class="glass rounded-lg p-6 hover:border-emerald-400 transition">
+            <h3 class="text-xl font-semibold text-white">
+              AI-Powered Weather Forecast System
+            </h3>
+            <p class="mt-2 text-gray-400">
+              Developed a Flask-based machine learning application leveraging
+              historical weather data and the OpenWeatherMap API. Implemented a
+              RandomForestRegressor model to predict temperature within a ±2°C
+              margin of error and visualized weather trends using Chart.js.
+            </p>
+            <a
+              href="https://github.com/nareshpanjiyar"
+              target="_blank"
+              rel="noopener"
+              class="inline-flex items-center gap-1 mt-3 text-emerald-400 underline"
+            >
+              View on GitHub <i data-lucide="external-link" class="w-4 h-4"></i>
+            </a>
+          </div>
+
+          <div class="glass rounded-lg p-6 hover:border-emerald-400 transition">
+            <h3 class="text-xl font-semibold text-white">
+              Windows Virtual Assistant
+            </h3>
+            <p class="mt-2 text-gray-400">
+              Built an intelligent voice assistant in Python using
+              SpeechRecognition, PyTTSx3, and the OpenAI API to deliver natural,
+              conversational responses. Automated routine tasks such as
+              application launches, reminders, and web searches through voice
+              commands.
+            </p>
+            <a
+              href="https://github.com/nareshpanjiyar"
+              target="_blank"
+              rel="noopener"
+              class="inline-flex items-center gap-1 mt-3 text-emerald-400 underline"
+            >
+              View on GitHub <i data-lucide="external-link" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section
+      id="experience"
+      class="max-w-6xl mx-auto px-6 py-16"
+      data-aos="fade-left"
+    >
+      <h2 class="text-3xl font-bold text-center mb-10 text-white">
+        Experience
+      </h2>
+
+      <div class="space-y-6">
+        <div class="glass p-6 rounded-lg hover:border-emerald-400 transition">
+          <h3 class="text-xl font-semibold text-white">
+            Software & Service Engineer – Tinting Solution Pvt Ltd (Asian
+            Paints)
+          </h3>
+          <p class="text-sm text-gray-400">
+            Jun 2021 – Apr 2022 • Kathmandu, Nepal
+          </p>
+          <ul
+            class="list-disc list-inside mt-3 text-gray-300 text-sm space-y-1"
+          >
+            <li>
+              Developed and deployed firmware and automation scripts for
+              embedded devices (microcontrollers, IoT), improving device
+              performance.
+            </li>
+            <li>
+              Diagnosed and repaired embedded systems and automation units to
+              ensure high uptime and reliability.
+            </li>
+            <li>
+              Authored detailed technical documentation, SOPs and
+              troubleshooting guides for hardware-software systems.
+            </li>
+            <li>
+              Collaborated with software teams on remote monitoring
+              proof-of-concepts and diagnostics tools.
+            </li>
+            <li>
+              Maintained call logs and ensured timely closure of service
+              requests; coordinated deployments with cross-functional teams.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section id="education" class="py-16" data-aos="fade-up">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-3xl font-bold text-center mb-10 text-white">
+          Education
+        </h2>
+
+        <div
+          class="glass p-6 rounded-lg text-center hover:border-emerald-400 transition"
+        >
+          <h3 class="text-xl font-semibold text-white">
+            B.Tech – Computer Science & Engineering
+          </h3>
+          <p class="text-gray-400">MIT World Peace University, Pune</p>
+          <p class="text-sm text-gray-400">July 2023 – Present</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACHIEVEMENTS -->
+    <section id="achievements" class="py-16" data-aos="fade-up">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-3xl font-bold text-center mb-10 text-white">
+          Achievements
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="glass p-6 rounded-lg hover:border-emerald-400 transition">
+            <ul class="list-disc list-inside text-gray-300">
+              <li>Finalist at Smart India Hackathon (SIH).</li>
+              <li>Solved 250 problems on CodeChef.</li>
+              <li>Solved 100 problems on LeetCode.</li>
+              <li>Achieved 5 Star on HackerRank.</li>
+              <li>Secured 3rd place in Warli Painting Competition.</li>
+              <li>
+                Built & deployed 3+ real-world projects involving IoT, AI and
+                web development.
+              </li>
+            </ul>
+          </div>
+
+          <div class="glass p-6 rounded-lg hover:border-emerald-400 transition">
+            <h3 class="text-lg font-semibold text-white mb-3">
+              Profiles & Links
+            </h3>
+            <div class="flex flex-col gap-3 text-sm">
+              <a
+                href="mailto:nareshpanjiyar90@gmail.com"
+                class="underline hover:text-emerald-400"
+                >nareshpanjiyar90@gmail.com</a
+              >
+              <a
+                href="https://www.linkedin.com/in/naresh-panjiyar/"
+                target="_blank"
+                rel="noopener"
+                class="underline hover:text-emerald-400"
+                >LinkedIn</a
+              >
+              <a
+                href="https://github.com/nareshpanjiyar"
+                target="_blank"
+                rel="noopener"
+                class="underline hover:text-emerald-400"
+                >GitHub</a
+              >
+              <a
+                href="https://www.codechef.com/users/nareshpanjiyar"
+                target="_blank"
+                rel="noopener"
+                class="underline hover:text-emerald-400"
+                >CodeChef</a
+              >
+              <a
+                href="https://leetcode.com/u/nareshpanjiyar/"
+                target="_blank"
+                rel="noopener"
+                class="underline hover:text-emerald-400"
+                >LeetCode</a
+              >
+              <a
+                href="https://www.hackerrank.com/profile/nareshpanjiyar"
+                target="_blank"
+                rel="noopener"
+                class="underline hover:text-emerald-400"
+                >HackerRank</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section
+      id="contact"
+      class="max-w-6xl mx-auto px-6 py-16 text-center"
+      data-aos="fade-up"
+    >
+      <h2 class="text-3xl font-bold mb-6 text-white">Contact Me</h2>
+      <p class="text-gray-400 mb-4">
+        Interested in working together? Reach out by email or phone — I'm open
+        to internships, collaborative projects and freelance work.
+      </p>
+
+      <div class="flex justify-center gap-4 mb-6">
+        <a
+          href="mailto:nareshpanjiyar90@gmail.com"
+          target="_blank"
+          rel="noopener"
+          class="px-8 py-3 rounded-lg bg-emerald-500 text-white hover:bg-emerald-600 transition"
+        >
+          Say Hello 👋
+        </a>
+
+        <a
+          href="tel:+917251972150"
+          target="_blank"
+          class="px-8 py-3 rounded-lg bg-emerald-500 text-white hover:bg-emerald-600 transition"
+        >
+          Call +91 7251972150
+        </a>
+      </div>
+
+      <p class="text-gray-400">Kothrud, Pune, India</p>
+    </section>
+
+    <footer class="glass py-6 mt-10 text-center text-gray-400 text-sm">
+      © <span id="year"></span> Naresh Kumar Panjiyar
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init({ duration: 900, once: true });
+      lucide.createIcons();
+      document.getElementById("year").textContent = new Date().getFullYear();
+
+      // Starfield
+      const canvas = document.getElementById("starfield"),
+        ctx = canvas.getContext("2d");
+      let stars = [];
+      function resize() {
+        canvas.width = innerWidth;
+        canvas.height = innerHeight;
+        stars = Array.from({ length: 180 }, () => ({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          r: Math.random() * 1.5,
+          d: Math.random() * 1,
+        }));
+      }
+      window.addEventListener("resize", resize);
+      resize();
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "rgba(255,255,255,0.9)";
+        stars.forEach((s) => {
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fill();
+          s.y += s.d * 0.6;
+          if (s.y > canvas.height) s.y = 0;
+        });
+        requestAnimationFrame(draw);
+      }
+      draw();
+
+      // Mobile nav
+      const menuBtn = document.getElementById("menu-btn");
+      const mobileMenu = document.getElementById("mobile-menu");
+      const overlay = document.getElementById("mobile-overlay");
+      const closeBtn = document.getElementById("close-btn");
+      const menuOpen = document.getElementById("menu-open");
+      const menuClose = document.getElementById("menu-close");
+      const links = document.querySelectorAll(".mobile-link");
+
+      function openMenu() {
+        mobileMenu.classList.remove("translate-x-full");
+        overlay.classList.remove("hidden");
+        menuOpen.classList.add("hidden");
+        menuClose.classList.remove("hidden");
+      }
+      function closeMenu() {
+        mobileMenu.classList.add("translate-x-full");
+        overlay.classList.add("hidden");
+        menuOpen.classList.remove("hidden");
+        menuClose.classList.add("hidden");
+      }
+      menuBtn.addEventListener("click", () => {
+        if (mobileMenu.classList.contains("translate-x-full")) openMenu();
+        else closeMenu();
+      });
+      closeBtn.addEventListener("click", closeMenu);
+      overlay.addEventListener("click", closeMenu);
+      links.forEach((l) => l.addEventListener("click", closeMenu));
+    </script>
+  </body>
+</html>
